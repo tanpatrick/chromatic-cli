@@ -18,6 +18,15 @@ const maybe = (a: string, b: any = undefined) => {
 
 const getBuildInfo = (event: typeof context) => {
   switch (event.eventName) {
+    case 'merge_group': {
+      const { merge_group, repository } = event.payload;
+      return {
+        sha: merge_group.head_sha,
+        branch: merge_group.head_ref,
+        slug: repository.full_name,
+        mergeCommit: event.sha,
+      };
+    }
     case 'pull_request':
     case 'pull_request_review':
     case 'pull_request_target': {
